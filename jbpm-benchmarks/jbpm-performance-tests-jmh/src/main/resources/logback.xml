@@ -12,11 +12,9 @@
   </appender>
   <appender name="asyncFileAppender" class="ch.qos.logback.classic.AsyncAppender">
     <queueSize>300</queueSize>
-    <appender-ref ref="fileAppender" />
+    <appender-ref ref="fileAppender"/>
   </appender>
-
-  <!-- show only WARN messages on console, used for loggers that want to print 
-       info or debug messages to file, but only WARN (and higher) messages to console -->
+  
   <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <pattern>%d [%t] [%c] %-5p %m%n</pattern>
@@ -24,37 +22,37 @@
   </appender>
   <appender name="asyncConsoleAppender" class="ch.qos.logback.classic.AsyncAppender">
     <queueSize>300</queueSize>
-    <appender-ref ref="consoleAppender" />
+    <appender-ref ref="consoleAppender"/>
   </appender>
 
   <!-- LOGGER LIST -->
 
   <logger name="com.arjuna">
-    <level value="info" />
+    <level value="info"/>
   </logger>
 
   <logger name="org.hibernate">
-    <level value="info" />
+    <level value="info"/>
   </logger>
 
   <logger name="org.kie">
-    <level value="info" />
+    <level value="info"/>
   </logger>
 
   <logger name="org.drools">
-    <level value="info" />
+    <level value="info"/>
   </logger>
 
   <logger name="org.jbpm">
-    <level value="info" />
+    <level value="info"/>
   </logger>
 
   <logger name="org.perfrepo">
-    <level value="debug" />
+    <level value="debug"/>
   </logger>
 
   <root level="info">
-    <appender-ref ref="consoleAppender" />
+    <appender-ref ref="consoleAppender"/>
     <!-- Intentionally turned off for the tests, useful for debugging -->
     <!--<appender-ref ref="fileAppender" />-->
   </root>

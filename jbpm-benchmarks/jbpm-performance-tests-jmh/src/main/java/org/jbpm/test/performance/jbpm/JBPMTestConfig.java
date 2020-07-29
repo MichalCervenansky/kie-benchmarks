@@ -1,26 +1,27 @@
 package org.jbpm.test.performance.jbpm;
 
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
-public class JBPMTestConfig extends TestConfig {
+public class JBPMTestConfig {
 
     protected String runtimeManagerStrategy;
-
+    protected static JBPMTestConfig tc;
     protected boolean persistence;
-
+    protected Properties properties;
     protected boolean pessimisticLocking;
-
-    protected int concurrentUsersCount;
-
     protected boolean humanTaskEager;
+    protected String projectName;
+    protected String startScriptLocation;
+    protected String databaseName;
 
     protected JBPMTestConfig() {
 
     }
 
     public static JBPMTestConfig getInstance() {
-        if (tc == null || !(tc instanceof JBPMTestConfig)) {
+        if (tc == null) {
             tc = new JBPMTestConfig();
             try {
                 tc.loadProperties();
@@ -28,29 +29,38 @@ public class JBPMTestConfig extends TestConfig {
                 ex.printStackTrace();
             }
         }
-        return (JBPMTestConfig) tc;
+        return tc;
     }
 
-    @Override
     public Properties loadProperties() throws Exception {
-        super.loadProperties();
+        properties = new Properties();
+
+        projectName = System.getProperty("projectName");
+        if (projectName == null || projectName.isEmpty()) {
+            projectName = "Project";
+        }
+
+        startScriptLocation = System.getProperty("startScriptLocation");
+        if (startScriptLocation == null) {
+            startScriptLocation = "./run.sh";
+        }
+        properties.put("startScriptLocation", startScriptLocation);
 
         databaseName = JBPMController.getDatasourceProperties().getProperty("databaseName");
         properties.put("databaseName", databaseName);
-        addTag(databaseName);
 
         runtimeManagerStrategy = System.getProperty("jbpm.runtimeManagerStrategy");
         properties.put("jbpm.runtimeManagerStrategy", runtimeManagerStrategy);
-        addTag(runtimeManagerStrategy);
 
-        persistence = Boolean.valueOf(System.getProperty("jbpm.persistence"));
+        persistence = Boolean.parseBoolean(System.getProperty("jbpm.persistence"));
         properties.put("jbpm.persistence", persistence);
 
         String locking = System.getProperty("jbpm.locking");
+        System.out.println(locking);
         pessimisticLocking = locking.toLowerCase().equals("pessimistic");
         properties.put("jbpm.pessimisticLocking", pessimisticLocking);
 
-        humanTaskEager = Boolean.valueOf(System.getProperty("jbpm.ht.eager"));
+        humanTaskEager = Boolean.parseBoolean(System.getProperty("jbpm.ht.eager"));
         properties.put("jbpm.ht.eager", humanTaskEager);
 
         return properties;
@@ -71,5 +81,4 @@ public class JBPMTestConfig extends TestConfig {
     public boolean isHumanTaskEager() {
         return humanTaskEager;
     }
-
 }
