@@ -51,6 +51,10 @@
     <level value="debug"/>
   </logger>
 
+  <logger name="org.jbpm.process.audit">
+    <level value="debug"/>
+  </logger>
+
   <root level="info">
     <appender-ref ref="consoleAppender"/>
     <!-- Intentionally turned off for the tests, useful for debugging -->
